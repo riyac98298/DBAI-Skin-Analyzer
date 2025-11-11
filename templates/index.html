@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>AI Skin Analyzer</title>
+    <!-- Tailwind CSS via CDN for quick styling -->
+    <script src="https://cdn.tailwindcss.com"></script>
+  </head>
+  <body class="bg-gray-50 text-gray-800 font-sans">
+    <div class="container mx-auto max-w-3xl p-6">
+      <h1 class="text-3xl font-bold mb-4 text-center">AI Skin Analyzer</h1>
+
+      <!-- Instructions section -->
+      <div class="bg-white rounded-lg shadow p-6 mb-6">
+        <h2 class="text-xl font-semibold mb-2">How to take your selfie</h2>
+        <ul class="list-disc pl-5 space-y-1 text-sm">
+          <li>
+            Go bare‑faced: avoid makeup to ensure your skin issues are visible【954414059076586†L517-L523】.
+          </li>
+          <li>
+            Use bright, natural lighting. Stand with sunlight in front of your face and avoid back‑lighting【954414059076586†L528-L535】.
+          </li>
+          <li>
+            Position the camera at eye level and center your face in the frame.
+          </li>
+          <li>
+            Choose a neutral background; avoid clutter that distracts from your face【954414059076586†L554-L559】.
+          </li>
+          <li>
+            Keep a relaxed expression and look straight at the camera.
+          </li>
+        </ul>
+      </div>
+
+      <!-- Form section -->
+      <div id="form-container" class="bg-white rounded-lg shadow p-6">
+        <h2 class="text-xl font-semibold mb-4">Enter your details</h2>
+        <form id="analysis-form" class="space-y-4">
+          <div>
+            <label for="age" class="block text-sm font-medium">Age</label>
+            <input
+              type="number"
+              id="age"
+              name="age"
+              min="1"
+              max="120"
+              class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 p-2"
+              required
+            />
+          </div>
+          <div>
+            <label for="skinType" class="block text-sm font-medium">Skin Type</label>
+            <select
+              id="skinType"
+              name="skinType"
+              class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 p-2"
+              required
+            >
+              <option value="">Select...</option>
+              <option value="dry">Dry</option>
+              <option value="normal">Normal</option>
+              <option value="oily">Oily</option>
+              <option value="combination">Combination</option>
+              <option value="sensitive">Sensitive</option>
+            </select>
+          </div>
+          <div>
+            <label for="photo" class="block text-sm font-medium">Upload a selfie</label>
+            <input
+              type="file"
+              id="photo"
+              name="photo"
+              accept="image/*"
+              class="mt-1 block w-full text-sm text-gray-600"
+              required
+            />
+          </div>
+          <button
+            type="submit"
+            class="bg-indigo-600 text-white px-4 py-2 rounded hover:bg-indigo-700 focus:outline-none"
+          >
+            Analyze
+          </button>
+        </form>
+      </div>
+
+      <!-- Results section (hidden by default) -->
+      <div id="results-container" class="hidden bg-white rounded-lg shadow p-6 mt-6">
+        <h2 class="text-xl font-semibold mb-4">Analysis Results</h2>
+        <div id="analysis-output"></div>
+        <div id="recommendation-output" class="mt-4"></div>
+        <div class="mt-4">
+          <button
+            id="restart-btn"
+            class="bg-gray-300 text-gray-700 px-3 py-1 rounded hover:bg-gray-400"
+          >
+            Analyze another photo
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Script to handle form submission and dynamic UI updates -->
+    <script src="/static/js/script.js"></script>
+  </body>
+</html>

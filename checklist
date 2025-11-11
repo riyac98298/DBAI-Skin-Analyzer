@@ -1,0 +1,120 @@
+Absolutely—here’s a tight “next-time checklist” you can paste into your terminal. This assumes you’ll keep using the **Miniforge/conda env** that finally worked: `skin-ai-tf` with TF **2.10**.
+
+---
+
+# Every new VS Code session (quick start)
+
+```bash
+# 0) (Optional) make sure pyenv doesn’t hijack this folder
+rm -f .python-version  # safe even if it doesn't exist
+
+# 1) Initialize conda in this shell (only needed if you don't see (base))
+source ~/miniforge3/bin/activate
+
+# 2) Activate the working env
+conda activate skin-ai-tf
+
+# 3) Sanity check: you should see your env’s python path + arm64
+python -V
+which python
+python - <<'PY'
+import sys, platform
+print("exe:", sys.executable)
+print("arch:", platform.machine())
+PY
+
+# 4) Verify TensorFlow is importable and Metal is visible
+python - <<'PY'
+import tensorflow as tf
+print("TF", tf.__version__)
+print("Devices", tf.config.list_physical_devices())
+PY
+```
+
+Expected: `TF 2.10.0` and at least `CPU`; usually `GPU` (Metal) too.
+
+---
+
+# Train (after you add/refresh images)
+
+```bash
+# from the project root
+python training/train_model.py --epochs 10 --batch_size 16
+# (tweak: add --img_size 192 or lower batch if you hit memory issues)
+```
+
+This writes `model/skin_classifier.h5`.
+
+---
+
+# Run the app
+
+```bash
+export FLASK_APP=app.py
+flask run --port 5000
+# open http://localhost:5000
+```
+
+---
+
+# If VS Code uses the wrong interpreter
+
+1. Command Palette → **Python: Select Interpreter** → choose:
+
+```
+~/miniforge3/envs/skin-ai-tf/bin/python
+```
+
+2. Open a **new** VS Code terminal.
+3. If you use **Code Runner**, disable it for Python or set its executor to that full path.
+
+---
+
+# One-liners for common hiccups
+
+**Conda not found / base not active**
+
+```bash
+source ~/miniforge3/bin/activate
+conda activate skin-ai-tf
+```
+
+**Pyenv keeps auto-activating (old setup)**
+
+```bash
+unset PYENV_VERSION
+rm -f .python-version
+exec $SHELL -l
+```
+
+**SSL/download flakiness (pip timeouts)**
+
+```bash
+export SSL_CERT_FILE="$(python -c 'import certifi; print(certifi.where())')"
+pip install --no-cache-dir --timeout 1200 --retries 5 -r requirements_macos_arm64_tf210.txt
+```
+
+**Missing module during run**
+
+```bash
+python -m pip install <module_name>
+```
+
+**Freeze the working stack (for teammates/reinstall)**
+
+```bash
+pip install -r requirements_macos_arm64_tf210.txt
+```
+
+---
+
+If you want, I can also add a tiny shell script (`dev.sh`) to the repo that runs the quick-start checks and launches the app in one go.
+
+
+------------------------------------------------------------------------------------------------------------
+#If your shell is restarted next time, just re-export SSL_CERT_FILE before training.
+
+python -m pip install --upgrade certifi
+export SSL_CERT_FILE="$(python -c 'import certifi; print(certifi.where())')"
+# retry training
+python training/train_model.py --epochs 10 --batch_size 16

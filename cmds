@@ -1,0 +1,31 @@
+pyenv install 3.10.14
+pyenv virtualenv 3.10.14 skin-ai
+pyenv activate skin-ai
+pip install -r reqs.txt            
+
+# (after you’ve put some images in training/data/{train,val}/acne|dark_circles)
+python training/train_model.py --epochs 10 --batch_size 16
+
+export FLASK_APP=app.py
+flask run --port 5000
+
+http://localhost:5000
+
+
+
+###############
+pyenv virtualenv 3.10.14 skin-ai
+pyenv activate skin-ai
+
+pyenv local skin-ai-tf                  # writes .python-version in this folder
+exec $SHELL -l
+
+pip install -r reqs.txt         
+#iske baad training
+
+
+#Tips if you hit memory issues:
+#Lower image size: --img_size 192
+#Lower batch: --batch_size 8
+#Make sure photos aren’t huge (>4–6 MB each); you can pre-shrink to ~1024px.
+#You should get model/skin_classifier.h5 when training finishes.
