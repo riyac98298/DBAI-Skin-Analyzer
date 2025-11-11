@@ -1,0 +1,56 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>{{ title or "A-Eye Skin" }}</title>
+  <!-- Tailwind CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: { brand: { DEFAULT: "#6D5DD3", dark: "#584bc0", light: "#8a7ff0" } }
+        }
+      }
+    }
+  </script>
+  <link rel="icon" href="{{ url_for('static', filename='image/logo.jpg') }}">
+</head>
+<body class="bg-gray-50 text-gray-800">
+  <!-- Header -->
+  <header class="sticky top-0 z-30 border-b bg-white/90 backdrop-blur">
+    <div class="mx-auto max-w-6xl px-5 py-5 flex items-center justify-between">
+      <!-- Left: title + tagline -->
+      <div class="min-w-0">
+        <h1 class="text-3xl font-extrabold tracking-tight">
+          <span class="text-brand">A-Eye</span> Skin
+        </h1>
+        <p class="text-sm text-gray-600 -mt-0.5 truncate">
+          Say Hi to A-Eye, the solution for all your skin concerns.
+        </p>
+      </div>
+
+      <!-- Right: bigger logo -->
+      <img
+        src="{{ url_for('static', filename='image/logo.jpg') }}"
+        alt="A-Eye Skin logo"
+        class="h-16 w-16 md:h-24 md:w-24 rounded-xl object-cover ring-1 ring-gray-200"
+      />
+    </div>
+  </header>
+
+  <!-- Page -->
+  <main class="mx-auto max-w-6xl px-5 py-8">
+    {% block content %}{% endblock %}
+  </main>
+
+  <footer class="mt-12 border-t">
+    <div class="mx-auto max-w-6xl px-5 py-6 text-xs text-gray-500">
+      For demonstration only. Not medical advice.
+    </div>
+  </footer>
+
+  <script src="{{ url_for('static', filename='app.js') }}"></script>
+</body>
+</html>
