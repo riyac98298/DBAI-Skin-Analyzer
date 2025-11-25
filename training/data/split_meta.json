@@ -1,0 +1,19 @@
+{
+  "source": "/Users/riya/Library/CloudStorage/OneDrive-IndianInstituteofManagement/Acads/Term 5/DBAI/Project/skin_analysis_app/datasets/staging/dark_circles",
+  "classes": {
+    "0": "dark_circles"
+  },
+  "include": [
+    0
+  ],
+  "val_ratio": 0.2,
+  "pad": 0.1,
+  "counts": {
+    "train": {
+      "dark_circles": 260
+    },
+    "val": {
+      "dark_circles": 67
+    }
+  }
+}
