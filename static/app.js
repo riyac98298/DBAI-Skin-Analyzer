@@ -26,4 +26,62 @@
       btn?.classList.add("opacity-80");
     });
   }
+})
+// =====================
+// Save & Track + Compare
+// =====================
+(function () {
+  const root = document.querySelector("[data-aeye-result]");
+  if (!root) return;
+
+  const key = "aeye-history"; // localStorage key
+  const imgUrl = root.dataset.img;
+  const probs = {
+    dark: parseFloat(root.dataset.dark || "0"),
+    acne: parseFloat(root.dataset.acne || "0"),
+  };
+
+  const saveToggle = document.getElementById("save-track");
+  const compare = document.getElementById("compare-block");
+  const prevImg = document.getElementById("compare-prev-img");
+  const prevMeta = document.getElementById("compare-prev-meta");
+
+  function loadHistory() {
+    try { return JSON.parse(localStorage.getItem(key) || "[]"); }
+    catch { return []; }
+  }
+  function saveHistory(list) {
+    localStorage.setItem(key, JSON.stringify(list));
+  }
+  function tsToText(ts) {
+    const d = new Date(ts);
+    return d.toLocaleString();
+  }
+
+  // If we already have a previous save, show compare
+  const history = loadHistory();
+  const prev = history.length ? history[history.length - 1] : null;
+  if (prev && compare && prevImg && prevMeta) {
+    prevImg.src = prev.img;
+    prevMeta.textContent = `Saved on ${tsToText(prev.ts)} — dark: ${(prev.probs.dark*100).toFixed(0)}%, acne: ${(prev.probs.acne*100).toFixed(0)}%`;
+    compare.classList.remove("hidden");
+  }
+
+  // Handle toggle: when ON, save current result to history
+  if (saveToggle) {
+    saveToggle.addEventListener("change", (e) => {
+      if (!e.target.checked) return;
+      const list = loadHistory();
+      list.push({ img: imgUrl, probs, ts: Date.now() });
+      saveHistory(list);
+      // Show compare immediately if not already showing
+      if (compare && compare.classList.contains("hidden") && prevImg && prevMeta) {
+        prevImg.src = imgUrl;
+        prevMeta.textContent = `Saved on ${tsToText(list[list.length - 1].ts)} — dark: ${(probs.dark*100).toFixed(0)}%, acne: ${(probs.acne*100).toFixed(0)}%`;
+        compare.classList.remove("hidden");
+      }
+    });
+  }
 })();
+
+
