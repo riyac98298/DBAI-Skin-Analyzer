@@ -1,0 +1,13 @@
+train: ../train/images
+val: ../valid/images
+test: ../test/images
+
+nc: 1
+names: ['Acne']
+
+roboflow:
+  workspace: enes-nacarolu
+  project: acne-uz95a
+  version: 1
+  license: CC BY 4.0
+  url: https://universe.roboflow.com/enes-nacarolu/acne-uz95a/dataset/1
